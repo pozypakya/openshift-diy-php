@@ -18,7 +18,7 @@ VERSION_APR_UTIL=1.5.4
 VERSION_PCRE=8.40
 
 # XDebug http://xdebug.org/files/
-VERSION_XDEBUG=2.3.3
+VERSION_XDEBUG=2.5.1
 
 # ZLib http://zlib.net/
 VERSION_ZLIB=1.2.8
