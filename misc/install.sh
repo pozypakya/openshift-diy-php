@@ -1,7 +1,7 @@
 #!/bin/sh
 
-OPENSHIFT_RUNTIME_DIR=$OPENSHIFT_HOMEDIR/app-root/runtime
-OPENSHIFT_REPO_DIR=$OPENSHIFT_HOMEDIR/app-root/runtime/repo
+OPENSHIFT_RUNTIME_DIR=${OPENSHIFT_HOMEDIR}/app-root/runtime
+OPENSHIFT_REPO_DIR=${OPENSHIFT_HOMEDIR}/app-root/runtime/repo
 
 # PHP https://secure.php.net/downloads.php
 # NOTE: If VERSION_PHP is set to "git" a checkout from the development sources will be performed instead.
@@ -24,7 +24,7 @@ VERSION_XDEBUG=2.3.3
 VERSION_ZLIB=1.2.8
 
 echo "Prepare directories"
-cd $OPENSHIFT_RUNTIME_DIR
+cd ${OPENSHIFT_RUNTIME_DIR}
 mkdir srv
 mkdir srv/pcre
 mkdir srv/httpd
@@ -34,31 +34,31 @@ mkdir tmp
 cd tmp/
 
 echo "Install pcre"
-wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-$VERSION_PCRE.tar.gz
-tar -zxf pcre-$VERSION_PCRE.tar.gz
-rm pcre-$VERSION_PCRE.tar.gz
-cd pcre-$VERSION_PCRE
+wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-${VERSION_PCRE}.tar.gz
+tar -zxf pcre-${VERSION_PCRE}.tar.gz
+rm pcre-${VERSION_PCRE}.tar.gz
+cd pcre-${VERSION_PCRE}
 ./configure \
---prefix=$OPENSHIFT_RUNTIME_DIR/srv/pcre
+--prefix=${OPENSHIFT_RUNTIME_DIR}/srv/pcre
 make && make install
 cd ..
 
-rm -rF pcre-$VERSION_PCRE
+rm -rF pcre-${VERSION_PCRE}
 
 echo "Install Apache httpd"
-wget http://www.gtlib.gatech.edu/pub/apache/httpd/httpd-$VERSION_APACHE.tar.gz
-tar -zxf httpd-$VERSION_APACHE.tar.gz
-wget http://artfiles.org/apache.org/apr/apr-$VERSION_APR.tar.gz
-tar -zxf apr-$VERSION_APR.tar.gz
-mv apr-$VERSION_APR httpd-$VERSION_APACHE/srclib/apr
-wget http://artfiles.org/apache.org/apr/apr-util-$VERSION_APR_UTIL.tar.gz
-tar -zxf apr-util-$VERSION_APR_UTIL.tar.gz
-mv apr-util-$VERSION_APR_UTIL httpd-$VERSION_APACHE/srclib/apr-util
-cd httpd-$VERSION_APACHE
+wget http://www.gtlib.gatech.edu/pub/apache/httpd/httpd-${VERSION_APACHE}.tar.gz
+tar -zxf httpd-${VERSION_APACHE}.tar.gz
+wget http://artfiles.org/apache.org/apr/apr-${VERSION_APR}.tar.gz
+tar -zxf apr-${VERSION_APR}.tar.gz
+mv apr-${VERSION_APR} httpd-${VERSION_APACHE}/srclib/apr
+wget http://artfiles.org/apache.org/apr/apr-util-${VERSION_APR_UTIL}.tar.gz
+tar -zxf apr-util-${VERSION_APR_UTIL}.tar.gz
+mv apr-util-${VERSION_APR_UTIL} httpd-${VERSION_APACHE}/srclib/apr-util
+cd httpd-${VERSION_APACHE}
 ./configure \
---prefix=$OPENSHIFT_RUNTIME_DIR/srv/httpd \
+--prefix=${OPENSHIFT_RUNTIME_DIR}/srv/httpd \
 --with-included-apr \
---with-pcre=$OPENSHIFT_RUNTIME_DIR/srv/pcre \
+--with-pcre=${OPENSHIFT_RUNTIME_DIR}/srv/pcre \
 --enable-so \
 --enable-auth-digest \
 --enable-rewrite \
@@ -69,39 +69,39 @@ cd httpd-$VERSION_APACHE
 make && make install
 cd ..
 
-#echo "INSTALL ICU"
-#wget http://download.icu-project.org/files/icu4c/50.1/icu4c-50_1-src.tgz
-#tar -zxf icu4c-50_1-src.tgz
-#cd icu/source/
-#chmod +x runConfigureICU configure install-sh
-#./configure \
-#--prefix=$OPENSHIFT_RUNTIME_DIR/srv/icu/
-#make && make install
-#cd ../..
+echo "INSTALL ICU"
+wget http://download.icu-project.org/files/icu4c/50.1/icu4c-50_1-src.tgz
+tar -zxf icu4c-50_1-src.tgz
+cd icu/source/
+chmod +x runConfigureICU configure install-sh
+./configure \
+--prefix=${OPENSHIFT_RUNTIME_DIR}/srv/icu/
+make && make install
+cd ../..
 
 echo "Install zlib"
-wget http://zlib.net/zlib-$VERSION_ZLIB.tar.gz
-tar -zxf zlib-$VERSION_ZLIB.tar.gz
-cd zlib-$VERSION_ZLIB
+wget http://zlib.net/zlib-${VERSION_ZLIB}.tar.gz
+tar -zxf zlib-${VERSION_ZLIB}.tar.gz
+cd zlib-${VERSION_ZLIB}
 ./configure \
---prefix=$OPENSHIFT_RUNTIME_DIR/srv/zlib/
+--prefix=${OPENSHIFT_RUNTIME_DIR}/srv/zlib/
 make && make install
 cd ..
 
 echo "INSTALL PHP $VERSION_PHP"
 
-if [ "git" = $VERSION_PHP ]
+if [ "git" = ${VERSION_PHP} ]
   then
 	wget http://ftp.gnu.org/gnu/bison/bison-2.7.tar.gz
 	tar -xvzf bison-2.7.tar.gz
 	cd bison-2.7
 	./configure \
-	--prefix=$OPENSHIFT_RUNTIME_DIR/tmp/bison/
+	--prefix=${OPENSHIFT_RUNTIME_DIR}/tmp/bison/
 
 	make && make install
 	cd ..
 
-	export YACC=$OPENSHIFT_RUNTIME_DIR/tmp/bison/bin/bison
+	export YACC=${OPENSHIFT_RUNTIME_DIR}/tmp/bison/bin/bison
 
     wget https://github.com/php/php-src/archive/master.tar.gz
     tar -zxf master.tar.gz
@@ -109,16 +109,16 @@ if [ "git" = $VERSION_PHP ]
 
 	./buildconf
 else
-    wget http://de2.php.net/get/php-$VERSION_PHP.tar.gz/from/this/mirror -O php-$VERSION_PHP.tar.gz
-    tar -zxf php-$VERSION_PHP.tar.gz
-    cd php-$VERSION_PHP
+    wget http://de2.php.net/get/php-${VERSION_PHP}.tar.gz/from/this/mirror -O php-${VERSION_PHP}.tar.gz
+    tar -zxf php-${VERSION_PHP}.tar.gz
+    cd php-${VERSION_PHP}
 fi
 
 ./configure \
---prefix=$OPENSHIFT_RUNTIME_DIR/srv/php/ \
---with-config-file-path=$OPENSHIFT_RUNTIME_DIR/srv/php/etc/apache2 \
---with-apxs2=$OPENSHIFT_RUNTIME_DIR/srv/httpd/bin/apxs \
---with-zlib=$OPENSHIFT_RUNTIME_DIR/srv/zlib \
+--prefix=${OPENSHIFT_RUNTIME_DIR}/srv/php/ \
+--with-config-file-path=${OPENSHIFT_RUNTIME_DIR}/srv/php/etc/apache2 \
+--with-apxs2=${OPENSHIFT_RUNTIME_DIR}/srv/httpd/bin/apxs \
+--with-zlib=${OPENSHIFT_RUNTIME_DIR}/srv/zlib \
 --with-libdir=lib64 \
 --with-layout=PHP \
 --with-gd \
@@ -126,12 +126,12 @@ fi
 --with-mysqli \
 --with-openssl \
 --enable-mbstring \
---enable-zip
-#--enable-intl \
-#--with-icu-dir=$OPENSHIFT_RUNTIME_DIR/srv/icu \
+--enable-zip\
+--enable-intl \
+--with-icu-dir=${OPENSHIFT_RUNTIME_DIR}/srv/icu
 
 make && make install
-mkdir $OPENSHIFT_RUNTIME_DIR/srv/php/etc/apache2
+mkdir ${OPENSHIFT_RUNTIME_DIR}/srv/php/etc/apache2
 cd ..
 
 #echo "Install APC"
@@ -147,25 +147,25 @@ cd ..
 #cd ..
 
 echo "Install xdebug"
-wget http://xdebug.org/files/xdebug-$VERSION_XDEBUG.tgz
-tar -zxf xdebug-$VERSION_XDEBUG.tgz
-cd xdebug-$VERSION_XDEBUG
-$OPENSHIFT_RUNTIME_DIR/srv/php/bin/phpize
+wget http://xdebug.org/files/xdebug-${VERSION_XDEBUG}.tgz
+tar -zxf xdebug-${VERSION_XDEBUG}.tgz
+cd xdebug-${VERSION_XDEBUG}
+${OPENSHIFT_RUNTIME_DIR}/srv/php/bin/phpize
 ./configure \
---with-php-config=$OPENSHIFT_RUNTIME_DIR/srv/php/bin/php-config
-make && cp modules/xdebug.so $OPENSHIFT_RUNTIME_DIR/srv/php/lib/php/extensions
+--with-php-config=${OPENSHIFT_RUNTIME_DIR}/srv/php/bin/php-config
+make && cp modules/xdebug.so ${OPENSHIFT_RUNTIME_DIR}/srv/php/lib/php/extensions
 cd ..
 
 echo "Cleanup"
-rm -r $OPENSHIFT_RUNTIME_DIR/tmp/*.tar.gz
-rm -r $OPENSHIFT_RUNTIME_DIR/tmp/*.tgz
+rm -r ${OPENSHIFT_RUNTIME_DIR}/tmp/*.tar.gz
+rm -r ${OPENSHIFT_RUNTIME_DIR}/tmp/*.tgz
 
 echo "COPY TEMPLATES"
-cp $OPENSHIFT_REPO_DIR/misc/templates/bash_profile.tpl $OPENSHIFT_HOMEDIR/app-root/data/.bash_profile
-python $OPENSHIFT_REPO_DIR/misc/parse_templates.py
+cp ${OPENSHIFT_REPO_DIR}/misc/templates/bash_profile ${OPENSHIFT_HOMEDIR}/app-root/data/.bash_profile
+python ${OPENSHIFT_REPO_DIR}/misc/parse_templates.py
 
 echo "START APACHE"
-$OPENSHIFT_RUNTIME_DIR/srv/httpd/bin/apachectl start
+${OPENSHIFT_RUNTIME_DIR}/srv/httpd/bin/apachectl start
 
 echo "*****************************"
 echo "***  F I N I S H E D !!   ***"
