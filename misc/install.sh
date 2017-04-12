@@ -23,6 +23,10 @@ VERSION_XDEBUG=2.5.1
 # ZLib http://zlib.net/
 VERSION_ZLIB=1.2.11
 
+# ICU http://site.icu-project.org/
+VERSION_ICU=58.2
+VERSION_ICU__=58_2
+
 echo "Prepare directories"
 cd ${OPENSHIFT_RUNTIME_DIR}
 mkdir srv
@@ -70,8 +74,8 @@ make && make install
 cd ..
 
 echo "INSTALL ICU"
-wget http://download.icu-project.org/files/icu4c/50.1/icu4c-50_1-src.tgz
-tar -zxf icu4c-50_1-src.tgz
+wget http://download.icu-project.org/files/icu4c/${VERSION_ICU}/icu4c-${VERSION_ICU__}-src.tgz
+tar -zxf icu4c-${VERSION_ICU__}-src.tgz
 cd icu/source/
 chmod +x runConfigureICU configure install-sh
 ./configure \
