@@ -9,7 +9,7 @@ OPENSHIFT_REPO_DIR=${OPENSHIFT_HOMEDIR}/app-root/runtime/repo
 VERSION_PHP=git
 
 # Apache http://www.gtlib.gatech.edu/pub/apache/httpd/
-VERSION_APACHE=2.4.16
+VERSION_APACHE=2.4.25
 # APR http://artfiles.org/apache.org/apr/
 VERSION_APR=1.5.2
 VERSION_APR_UTIL=1.5.4
