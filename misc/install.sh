@@ -27,6 +27,9 @@ VERSION_ZLIB=1.2.11
 VERSION_ICU=58.2
 VERSION_ICU__=58_2
 
+# Bison http://ftp.gnu.org/gnu/bison/
+VERSION_BISON=3.0.4
+
 echo "Prepare directories"
 cd ${OPENSHIFT_RUNTIME_DIR}
 mkdir srv
@@ -96,9 +99,9 @@ echo "INSTALL PHP $VERSION_PHP"
 
 if [ "git" = ${VERSION_PHP} ]
   then
-	wget http://ftp.gnu.org/gnu/bison/bison-2.7.tar.gz
-	tar -xvzf bison-2.7.tar.gz
-	cd bison-2.7
+	wget http://ftp.gnu.org/gnu/bison/bison-${VERSION_BISON}.tar.gz
+	tar -xvzf bison-${VERSION_BISON}.tar.gz
+	cd bison-${VERSION_BISON}
 	./configure \
 	--prefix=${OPENSHIFT_RUNTIME_DIR}/tmp/bison/
 
