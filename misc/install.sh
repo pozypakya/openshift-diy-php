@@ -15,7 +15,7 @@ VERSION_APR=1.5.2
 VERSION_APR_UTIL=1.5.4
 
 # PCRE ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre
-VERSION_PCRE=8.37
+VERSION_PCRE=8.40
 
 # XDebug http://xdebug.org/files/
 VERSION_XDEBUG=2.3.3
