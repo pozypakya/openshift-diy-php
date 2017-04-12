@@ -21,7 +21,7 @@ VERSION_PCRE=8.40
 VERSION_XDEBUG=2.5.1
 
 # ZLib http://zlib.net/
-VERSION_ZLIB=1.2.8
+VERSION_ZLIB=1.2.11
 
 echo "Prepare directories"
 cd ${OPENSHIFT_RUNTIME_DIR}
